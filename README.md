@@ -67,25 +67,25 @@ Navigate to the directory where your `mergedReport.json` file is located (or whe
 **1. Basic Usage (uses default `mergedReport.json` and outputs to `failed_tests_report.csv`):**
 
 ```bash
-cypress-failure-analyzer
+npx cypress-failure-analyzer
 ```
 
 **2. Specify Input and Output Paths:**
 
 ```bash
-cypress-failure-analyzer --input path/to/your/mergedReport.json --output my-failure-report.csv
+npx cypress-failure-analyzer --input path/to/your/mergedReport.json --output my-failure-report.csv
 ```
 
 **3. Shorthand Options:**
 
 ```bash
-cypress-failure-analyzer -i mochawesome-report.json -o detailed-failures.csv
+npx cypress-failure-analyzer -i mochawesome-report.json -o detailed-failures.csv
 ```
 
 **4. Display Help Information:**
 
 ```bash
-cypress-failure-analyzer --help
+npx cypress-failure-analyzer --help
 ```
 
 ### Example Workflow:
@@ -98,7 +98,7 @@ npx cypress run --reporter mochawesome --reporter-options 'reportDir=cypress/res
 npx mochawesome-merge "cypress/results/*.json" > mergedReport.json
 
 # 3. Analyze the merged report and generate CSV
-cypress-failure-analyzer -i mergedReport.json -o failed_tests_summary.csv
+npx cypress-failure-analyzer -i mergedReport.json -o failed_tests_summary.csv
 
 # 4. Open 'failed_tests_summary.csv' in your favorite spreadsheet software!
 ```
