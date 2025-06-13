@@ -1,0 +1,42 @@
+{
+  "name": "cypress-failure-analyzer",
+  "version": "1.0.0",
+  "description": "A powerful CLI tool to analyze Cypress test failures from Mochawesome reports, providing categorized and prioritized CSV output for efficient debugging.",
+  "main": "src/analyzer.js",
+  "type": "module",
+  "bin": {
+    "cypress-failure-analyzer": "bin/cypress-failure-analyzer.js"
+  },
+  "scripts": {
+    "start": "node bin/cypress-failure-analyzer.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cypress",
+    "test-automation",
+    "e2e-testing",
+    "error-analysis",
+    "report-generation",
+    "mochawesome",
+    "qa",
+    "debugging",
+    "cli"
+  ],
+  "author": "Mohamed Said Ibrahim",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "fs-extra": "^11.3.0",
+    "papaparse": "^5.5.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MohamedSci/cypress-failure-analyzer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MohamedSci/cypress-failure-analyzer/issues"
+  },
+  "homepage": "https://github.com/MohamedSci/cypress-failure-analyzer#readme",
+  "devDependencies": {
+    "cypress": "^14.4.1"
+  }
+}
