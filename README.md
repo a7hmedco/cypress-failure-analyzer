@@ -73,7 +73,7 @@ cypress-failure-analyzer
 **2. Specify Input and Output Paths:**
 
 ```bash
-cypress-failure-analyzer --input path/to/your/custom-report.json --output my-failure-report.csv
+cypress-failure-analyzer --input path/to/your/mergedReport.json --output my-failure-report.csv
 ```
 
 **3. Shorthand Options:**
@@ -118,7 +118,6 @@ The generated CSV file (`failed_tests_report.csv` or your specified output name)
 | `FailingCategoryDetail` | Specific detail about the failure within its category (e.g., `Element Not Found (Selector: X)`). |
 | `Priority`              | The assigned severity of the failure: `Critical`, `High`, `Medium`, `Low`.  |
 | `err_message`           | The raw, cleaned error message from Cypress/Mocha.                          |
-| `err_estack`            | The full error stack trace, useful for in-depth debugging.                  |
 
 -----
 
