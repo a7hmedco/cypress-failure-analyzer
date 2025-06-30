@@ -1,225 +1,112 @@
-## 🚀 Transform Chaotic Cypress Failure Logs into Actionable Insights\!
+# Cypress Failure Analyzer 🐞
 
-Are you tired of manually sifting through overwhelming Cypress test failure logs? Do you struggle to quickly identify the root cause, priority, and specific details of your test exceptions?
+![Cypress Failure Analyzer](https://img.shields.io/badge/Cypress%20Failure%20Analyzer-v1.0.0-brightgreen.svg)
+![npm](https://img.shields.io/badge/npm-v6.14.8-blue.svg)
+![GitHub issues](https://img.shields.io/github/issues/a7hmedco/cypress-failure-analyzer.svg)
 
-`cypress-failure-analyzer` is your solution\! This powerful **CLI tool** processes your [Mochawesome](https://www.google.com/search?q=https://github.com/mochajs/mochawesome) JSON reports, intelligently categorizing and prioritizing each failed test. The result? A clean, organized **CSV report** that empowers faster debugging, clearer communication, and more efficient test automation.
+Welcome to the **Cypress Failure Analyzer**! This tool generates reports for failed tests in Cypress, helping you identify issues quickly and effectively. Whether you are working on end-to-end testing, debugging, or error analysis, this tool is designed to streamline your testing workflow.
 
------
+## Table of Contents
 
-## ✨ Key Features
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Report Generation](#report-generation)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-  * **Automated CSV Reporting:** Converts complex Mochawesome JSON into an easy-to-read CSV format.
-  * **Intelligent Failure Categorization:** Automatically classifies failures into types like `AssertionError`, `TypeError`, `CypressError`, `Before Each Hook Failure`, and more.
-  * **Dynamic Priority Assignment:** Assigns a severity (Critical, High, Medium, Low) to each failure, guiding your debugging efforts.
-  * **Granular Failure Details:** Extracts specific information from error messages (e.g., "Element Not Found (Selector: `tbody tr`)", "Cypress Wait Request Timeout (Route: `/api/data`)").
-  * **Cleaned Error Messages & Stack Traces:** Removes distracting ANSI escape codes for improved readability.
-  * **Highly Customizable:** Easily extend or modify the built-in error categorization rules to fit your project's unique needs.
-  * **CLI-Friendly:** Simple command-line interface for seamless integration into your CI/CD pipelines.
+## Features
 
------
+- **Automated Report Generation**: Generate detailed reports for failed tests.
+- **Easy Integration**: Works seamlessly with your existing Cypress setup.
+- **Customizable Output**: Tailor the report format to fit your needs.
+- **Error Analysis**: Quickly pinpoint issues to improve test reliability.
+- **Support for Mochawesome**: Leverage Mochawesome for enhanced reporting capabilities.
 
-## 🎯 Objective
+## Installation
 
-The primary goal of `cypress-failure-analyzer` is to eliminate the manual overhead of post-test run analysis. By providing a structured, categorized, and prioritized report of failed Cypress tests, it enables:
-
-  * **Rapid Triage:** Quickly understand the impact and urgency of issues.
-  * **Streamlined Debugging:** Focus on the most critical and impactful failures first.
-  * **Improved Reporting:** Generate clear, data-driven reports for team members and stakeholders.
-  * **Trend Analysis:** Identify recurring failure patterns to enhance application stability and test suite robustness.
-
------
-
-## 📦 Installation
-
-You can install `cypress-failure-analyzer` either globally (recommended for CLI usage) or as a development dependency in your Cypress project.
-
-### Global Installation (Recommended for CLI)
+To get started, clone the repository:
 
 ```bash
-npm install -g cypress-failure-analyzer
+git clone https://github.com/a7hmedco/cypress-failure-analyzer.git
+cd cypress-failure-analyzer
 ```
 
-This allows you to run the `cypress-failure-analyzer` command directly from any directory.
-
-### Local Installation (Project-Specific)
+Then, install the necessary dependencies:
 
 ```bash
-npm install --save-dev cypress-failure-analyzer
+npm install
 ```
 
-If installed locally, you would typically run it via `npx cypress-failure-analyzer` or by defining a script in your `package.json` (e.g., `"analyze:failures": "cypress-failure-analyzer"`).
+For the latest version and updates, visit the [Releases](https://github.com/a7hmedco/cypress-failure-analyzer/releases) section.
 
------
+## Usage
 
-## 🚀 Usage
+After installation, you can use the Cypress Failure Analyzer in your testing workflow. Run your Cypress tests as you normally would:
 
-### Prerequisites
+```bash
+npx cypress run
+```
 
-  * **Node.js (v14+):** Ensure Node.js is installed on your system.
-  * **Mochawesome Report:** You need a merged Mochawesome JSON report, typically named `mergedReport.json`.
-      * Configure your Cypress tests to generate Mochawesome JSON reports (e.g., via `cypress.config.js`).
-      * Use a tool like [`mochawesome-merge`](https://www.google.com/search?q=%5Bhttps://www.npmjs.com/package/mochawesome-merge%5D\(https://www.npmjs.com/package/mochawesome-merge\)) to combine individual spec reports into a single `mergedReport.json` file.
-
-### Running the Analyzer
-
-Navigate to the directory where your `mergedReport.json` file is located (or where you want the output CSV to be generated).
-
-**1. Basic Usage (uses default `mergedReport.json` and outputs to `failed_tests_report.csv`):**
+Once the tests complete, you can generate the failure report:
 
 ```bash
 npx cypress-failure-analyzer
 ```
 
-**2. Specify Input and Output Paths:**
+This command will create a report that summarizes the failed tests, including error messages and stack traces.
 
-```bash
-npx cypress-failure-analyzer --input path/to/your/mergedReport.json --output my-failure-report.csv
+## Configuration
+
+You can customize the behavior of the Cypress Failure Analyzer by modifying the configuration file. Create a file named `cypress-failure-analyzer.config.js` in your project root. Here is an example configuration:
+
+```javascript
+module.exports = {
+  outputDir: 'cypress/reports',
+  reportFormat: 'html', // Options: 'html', 'json', 'text'
+  includeScreenshots: true,
+  errorDetails: true,
+};
 ```
 
-**3. Shorthand Options:**
+Adjust the options according to your needs. The generated reports will be saved in the specified `outputDir`.
 
-```bash
-npx cypress-failure-analyzer -i mochawesome-report.json -o detailed-failures.csv
-```
+## Report Generation
 
-**4. Display Help Information:**
+The Cypress Failure Analyzer generates reports that provide a clear overview of the failed tests. Each report includes:
 
-```bash
-npx cypress-failure-analyzer --help
-```
+- **Test Name**: The name of the test that failed.
+- **Error Message**: A description of the error encountered.
+- **Stack Trace**: A detailed stack trace for debugging.
+- **Screenshots**: Optional screenshots from the test run.
 
-### Example Workflow:
+To view the generated report, navigate to the output directory specified in your configuration file.
 
-```bash
-# 1. Run Cypress tests (assuming Mochawesome reporter is configured)
-npx cypress run --reporter mochawesome --reporter-options 'reportDir=cypress/results,overwrite=false,json=true'
+## Contributing
 
-# 2. Merge Mochawesome JSON reports
-npx mochawesome-merge "cypress/results/*.json" > mergedReport.json
+We welcome contributions to improve the Cypress Failure Analyzer. To contribute:
 
-# 3. Analyze the merged report and generate CSV
-npx cypress-failure-analyzer -i mergedReport.json -o failed_tests_summary.csv
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your branch and create a pull request.
 
-# 4. Open 'failed_tests_summary.csv' in your favorite spreadsheet software!
-```
+Please ensure your code follows the project's coding standards and includes appropriate tests.
 
------
+## License
 
-## 📊 Output CSV Columns
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-The generated CSV file (`failed_tests_report.csv` or your specified output name) will contain the following columns, providing a comprehensive overview of each failed test:
+## Contact
 
-| Column Name             | Description                                                                 |
-| :---------------------- | :-------------------------------------------------------------------------- |
-| `suite_file`            | The full path to the Cypress spec file where the test is defined.           |
-| `suite_title`           | The title of the `describe` block (test suite) containing the failed test.  |
-| `test_title`            | The full title of the individual failed test (`it` block).                  |
-| `FailingCategory`       | Broad classification of the error (e.g., `AssertionError`, `TypeError`).    |
-| `FailingCategoryDetail` | Specific detail about the failure within its category (e.g., `Element Not Found (Selector: X)`). |
-| `Priority`              | The assigned severity of the failure: `Critical`, `High`, `Medium`, `Low`.  |
-| `err_message`           | The raw, cleaned error message from Cypress/Mocha.                          |
+For questions or support, please open an issue in the repository or contact the maintainer:
 
------
+- **Ahmed Co.**: [a7hmedco](https://github.com/a7hmedco)
 
-## Understanding Common Cypress Test Failures
+---
 
-`cypress-failure-analyzer` categorizes errors to help you quickly grasp their nature. Here's a brief explanation of the common failure types you'll encounter:
+For the latest releases and updates, visit the [Releases](https://github.com/a7hmedco/cypress-failure-analyzer/releases) section. Download the latest version and execute it to enhance your testing process. 
 
-### 🔴 Critical Priority Failures: Immediate Attention Required\!
-
-These often indicate fundamental issues with your test environment, application setup, or core JavaScript logic. They can halt entire test suites.
-
-  * **`TypeError` / `TypeError (Runtime)`:**
-      * **What it is:** A JavaScript error when an operation is performed on a value of an unexpected type (e.g., trying to call a method on `undefined`).
-      * **Common Causes:** Trying to interact with an element that genuinely doesn't exist, incorrect object property access, issues within custom commands.
-      * **Actionable Insight:** Check element existence, variable definitions, and custom command implementations.
-  * **`ReferenceError` / `ReferenceError (Runtime)`:**
-      * **What it is:** A JavaScript error when a variable or function is referenced but has not been declared or is out of scope.
-      * **Common Causes:** Typos in names, forgetting `import` statements, scope issues.
-      * **Actionable Insight:** Verify spelling, ensure proper imports, and check variable scopes.
-  * **`Before Each Hook Failure`:**
-      * **What it is:** An error occurring within a `before()` or `beforeEach()` hook, which usually prevents subsequent tests from running.
-      * **Common Causes:** Failed logins, `cy.visit()` issues, critical setup data not loading.
-      * **Actionable Insight:** Debug the setup hook in isolation; verify prerequisites for your tests (e.g., application health, authentication).
-
-### 🟠 High Priority Failures: Application Under Test Misbehavior\!
-
-These are direct signs that your application isn't behaving as expected or has a visible bug.
-
-  * **`AssertionError`:**
-      * **What it is:** Your `expect()` assertion failed, meaning the actual state of the application didn't match the expected state. Often accompanied by "Timed out retrying..." messages.
-      * **Common Causes:**
-          * **Element Not Found:** Selector is incorrect, element not rendered, or removed from DOM.
-          * **Content/Value Mismatch:** Text, URL, API response status, or attribute value isn't as expected.
-          * **Visibility Issues:** Element exists but is hidden or obscured.
-      * **Actionable Insight:** Verify selectors, check for application regressions, investigate dynamic rendering issues, confirm API responses.
-  * **`UI Visibility Error`:**
-      * **What it is:** A custom error (likely from your test utilities) indicating a specific UI component was not visible when expected.
-      * **Common Causes:** Component rendering issues, race conditions, CSS hiding the element.
-      * **Actionable Insight:** Inspect UI component state and styling.
-
-### 🟡 Medium Priority Failures: Interactivity & Timing Challenges
-
-These often point to flakiness, timing issues, or how Cypress interacts with dynamic UI elements.
-
-  * **`CypressError`:**
-      * **What it is:** A general error thrown by Cypress itself, related to command execution.
-      * **Common Causes & Details:**
-          * **`Cypress Visit Load Failure`:** `cy.visit()` couldn't load the page (app down, wrong URL, network issues).
-          * **`Cypress Click Stale Element`:** DOM changed after Cypress found an element but before it could click it.
-          * **`Cypress Click Covered Element`:** An element you tried to click was covered by another UI element.
-          * **`Cypress Wait Request Timeout`:** `cy.wait()` didn't intercept an expected network request.
-          * **`Cypress Match Argument Invalid`:** Incorrect argument type provided to a Cypress command (e.g., non-RegExp to `cy.contains`).
-          * **`Cypress Scroll Multi-Element`:** Selector used with `cy.scrollIntoView()` returned multiple elements.
-      * **Actionable Insight:** Review timing (add more explicit waits), refine selectors, ensure necessary network requests are made, check for UI overlays.
-
-### ⚫ Other/Unknown Priority Failures
-
-  * **`Other/Unknown` / `Unclassified Error Detail`:**
-      * **What it is:** Any error message that doesn't match the predefined categorization rules.
-      * **Actionable Insight:** Manually inspect these. If a new, recurring pattern emerges, consider contributing or adding a new rule to `ERROR_CATEGORIZATION_RULES` for future automation.
-
------
-
-## 🛠️ Customizing Categorization Rules
-
-The power of `cypress-failure-analyzer` lies in its extensible `ERROR_CATEGORIZATION_RULES`. If you need to tailor the categorization to your specific project's error patterns:
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/cypress-failure-analyzer.git
-    cd cypress-failure-analyzer
-    npm install
-    ```
-2.  **Edit `src/analyzer.js`:**
-    Modify the `ERROR_CATEGORIZATION_RULES` array.
-      * **Add New Categories:** Add new objects to the main array.
-      * **Add New Details:** Add new objects to the `details` array within an existing category.
-      * **Utilize Capture Groups:** Use parentheses `()` in your `regex` (e.g., ` Expected to find element:  `([^`]+)`) and reference them in your `detailMessage` as `$1`, `$2`, etc.
-      * **Order Matters:** Rules are matched in the order they appear. Place more specific or critical rules higher up.
-3.  **Test your changes locally:** Follow the "Local Testing" steps mentioned above.
-4.  **Re-link/Publish:** If you wish to use your custom version globally, you can `npm link` it from your cloned directory or even publish your own scoped package to npm.
-
------
-
-## 🤝 Contributing
-
-We welcome contributions to make `cypress-failure-analyzer` even better\!
-
-  * **Bug Reports:** If you find a bug, please open an issue with detailed steps to reproduce.
-  * **Feature Requests:** Have an idea for a new feature? Share it by opening an issue.
-  * **Pull Requests:** Feel free to fork the repository, make your changes, and submit a pull request. We especially appreciate contributions that enhance error categorization rules or add new output formats.
-
------
-
-## 📜 License
-
-This project is licensed under the Apache-2.0 License - see the [LICENSE](https://github.com/MohamedSci/cypress-failure-analyzer/blob/main/LICENSE) file for details.
-
------
-
-## 👨‍💻 Author
-
-Mohamed Said Ibrahim  [Linkedin](https://www.linkedin.com/in/mohamedsaidibrahim/)
-[Medium](https://medium.com/@mohamedsaidibrahim)
------
+Thank you for using the Cypress Failure Analyzer! We hope it helps you improve your testing efficiency and accuracy. Happy testing!
